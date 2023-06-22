@@ -26,6 +26,9 @@ public class PieceRotation : MonoBehaviour
     Vector3 ini;
     Vector3 pos;
 
+    //メインコントローラー
+    [SerializeField] MainCon mc;
+
     //回転方向
     public enum RotationDirection
     {
@@ -178,5 +181,7 @@ public class PieceRotation : MonoBehaviour
             q.eulerAngles = angle;
             transform.rotation = q;
         }
+
+        //mc.OverListX;
     }
 }

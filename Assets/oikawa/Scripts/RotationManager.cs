@@ -4,31 +4,27 @@ using UnityEngine;
 
 public class RotationManager : MonoBehaviour
 {
-    //[SerializeField] List<PieceRotation> pieces; //オセロのピース
-    List<PieceRotation> pieces; //オセロのピース
+    [SerializeField] List<PieceRotation> pieces; //オセロのピース
+    //List<PieceRotation> pieces; //オセロのピース
     PieceRotation p;
 
     void Start()
     {
-        pieces = new List<PieceRotation>(16);//オセロのピースを入れる
+       //pieces = new List<PieceRotation>(16);//オセロのピースを入れる
     }
 
 
     void Update()
     {
-
-        //Aが押されたら（左回転）＝colが3のやつのみひっくり返す
-        if (Input.GetKeyDown(KeyCode.A))
+    }
+    public IEnumerator StartContinuousTurn(List<int> listX, List<int> listZ, GameObject[,] pieceBox) {
+        int x, z;
+        for (int i = 0; i < listX.Count; i++)
         {
-
-            for (int i = 0; i < 16; ++i)
-            {
-                if (pieces[i].col == 3)
-                {
-                    pieces[i].StartToss(PieceRotation.RotationDirection.Left);
-                }
-            }
-
-        }
+            x = listX[i];
+            z = listZ[i];
+            pieceBox[z,x].GetComponent<PieceRotation>().StartToss(PieceRotation.RotationDirection.Left);
+            yield return new WaitForSeconds(1);
+        }      
     }
 }

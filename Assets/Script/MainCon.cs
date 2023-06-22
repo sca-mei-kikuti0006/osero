@@ -31,6 +31,15 @@ public class MainCon : MonoBehaviour
     //ひっくり返す駒リスト
     List<int> overListX = new List<int>();
     List<int> overListZ = new List<int>();
+    public List<int> OverListX {
+        get { return overListX;}
+    }
+    public List<int> OverListZ {
+        get { return overListZ;}
+    }
+
+    //回転用マネージャー
+    [SerializeField] RotationManager rm;
 
     //駒の数UI
     [SerializeField] private Text BUi;
@@ -244,10 +253,10 @@ public class MainCon : MonoBehaviour
             x = listX[i];
             z = listZ[i];
             board[z,x] = turn;
-            pieceBox[z, x].transform.Rotate(new Vector3(0, 0, 180));
+            //pieceBox[z, x].transform.Rotate(new Vector3(0, 0, 180));
+            rm.StartContinuousTurn(listX, listZ, pieceBox);//連続回転
         }
     }
-
     private void GameEnd() {
         Debug.Log("end");
         Application.Quit();
