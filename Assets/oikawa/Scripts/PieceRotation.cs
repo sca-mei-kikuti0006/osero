@@ -3,8 +3,6 @@ using System.Collections.Generic;
 using UnityEngine;
 public class PieceRotation : MonoBehaviour
 {
-    [SerializeField] public int row;//何行目か0~3
-    [SerializeField] public int col;//何列目か0~3
 
     [SerializeField] private RotationDirection rotDir; //白か黒かの判別用
     private float x;
@@ -13,7 +11,8 @@ public class PieceRotation : MonoBehaviour
 
     private float rotatedAngle; //度数法
     private Vector3 startRotation;//上がりきったところでの回転角保存用
-    private Coroutine currentCoroutine;//現在実行中のコルーチン
+    //private Coroutine currentCoroutine;//現在実行中のコルーチン
+    Queue<Coroutine> currentCoroutine = new Queue<Coroutine>(); //キューを宣言
 
     [SerializeField] GameObject smoke;
 
@@ -27,7 +26,7 @@ public class PieceRotation : MonoBehaviour
     Vector3 pos;
 
     //メインコントローラー
-    [SerializeField] MainCon mc;
+    //[SerializeField] MainCon mc;
 
     //回転方向
     public enum RotationDirection
@@ -88,7 +87,9 @@ public class PieceRotation : MonoBehaviour
     {
         rotDir = dir;//回転方向を決定
         Debug.Log("回転スタート");
-        currentCoroutine = StartCoroutine(Toss());
+        //currentCoroutine = StartCoroutine(Toss());
+        currentCoroutine.Enqueue(StartCoroutine(Toss()));
+        currentCoroutine.Dequeue();
     }
 
 
@@ -131,8 +132,9 @@ public class PieceRotation : MonoBehaviour
                     //rotateAngleが180.0fより増えたら発動
                     if (rotatedAngle > 180.0f)
                     {
-                        StartCoroutine(Fall());//落下
-                        StopCoroutine(currentCoroutine);//トスストップ
+                        currentCoroutine.Enqueue(StartCoroutine(Fall()));//落下
+                        currentCoroutine.Dequeue();
+                        //StopCoroutine(currentCoroutine);//トスストップ
                     }
 
                     yield return null;
@@ -159,7 +161,7 @@ public class PieceRotation : MonoBehaviour
             transform.position = nextPosition;
 
 
-            if (transform.position.y <= 0.1f)
+            if (transform.position.y <= 0.07f)
             {
                 transform.position = ini;
                 GameObject PrefabSmoke = Instantiate(smoke, ini, Quaternion.identity); //smoke生成
@@ -181,7 +183,5 @@ public class PieceRotation : MonoBehaviour
             q.eulerAngles = angle;
             transform.rotation = q;
         }
-
-        //mc.OverListX;
     }
 }

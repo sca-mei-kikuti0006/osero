@@ -31,7 +31,7 @@ public class MainCon : MonoBehaviour
     //ひっくり返す駒リスト
     List<int> overListX = new List<int>();
     List<int> overListZ = new List<int>();
-    public List<int> OverListX {
+    public List<int> OverListX { //変更(及川)
         get { return overListX;}
     }
     public List<int> OverListZ {
@@ -132,7 +132,20 @@ public class MainCon : MonoBehaviour
             }
         }
     }
-
+    void DebugBoard()
+    {
+        string str = "";
+        for (int x = 0; x < 8; x++)
+        {
+            for (int y = 0; y < 8; y++)
+            {
+                if(pieceBox[x, y] == null) str += "O";
+                else str += "X";
+            }
+            str += "\n";
+        }
+        Debug.Log(str);
+    }
 
     //ターン交代
     private void TurnChange()
@@ -253,8 +266,10 @@ public class MainCon : MonoBehaviour
             x = listX[i];
             z = listZ[i];
             board[z,x] = turn;
-            //pieceBox[z, x].transform.Rotate(new Vector3(0, 0, 180));
-            rm.StartContinuousTurn(listX, listZ, pieceBox);//連続回転
+            //変更(及川)
+            //pieceBox[z, x].transform.Rotate(new Vector3(0, 0, 180)); 
+            DebugBoard();
+            StartCoroutine(rm.StartContinuousTurn(listX, listZ, pieceBox));//連続回転
         }
     }
     private void GameEnd() {
