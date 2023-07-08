@@ -109,12 +109,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1d335057db95f8b4b8baf6b27149f14a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  row: 0
-  col: 3
   rotDir: 0
   z: 500
   smoke: {fileID: 7076094380719614067, guid: f5acd922d8e12f4438bb8034171df29b, type: 3}
-  mc: {fileID: 0}
 --- !u!1 &2579208340401885773
 GameObject:
   m_ObjectHideFlags: 0

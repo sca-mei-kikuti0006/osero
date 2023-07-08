@@ -17,6 +17,9 @@ public class MainCon : MonoBehaviour
     private turnBW turn = turnBW.Black;//どっちのターンか
     private turnBW notTurn = turnBW.White;//ターンじゃない方
 
+    //おけるか
+    bool canCrick = true;
+
     //盤面データ
     private turnBW[,] board = new turnBW[8, 8];
     //駒データ
@@ -118,7 +121,8 @@ public class MainCon : MonoBehaviour
         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
         RaycastHit hit;
         if (Physics.Raycast(ray, out hit, 13.0f)){
-            if (Input.GetMouseButtonDown(0)){
+            if (Input.GetMouseButtonDown(0) && canCrick == true){
+                canCrick = false;
                 int z = (int)hit.transform.position.z * -1;
                 int x = (int)hit.transform.position.x;
 
@@ -248,7 +252,7 @@ public class MainCon : MonoBehaviour
                 }
                 else if(board[z,x] == turn) {
                     canOver[Z,X] = true;
-                    if(over == true) OverPiece(overListX, overListZ);
+                    if(over == true) StartCoroutine(OverPiece(overListX, overListZ));
                     isOver = true;
 
                 }else {
@@ -259,18 +263,37 @@ public class MainCon : MonoBehaviour
 
     }
 
+    ////裏返す
+    //private void OverPiece(List<int> listX,List<int> listZ){
+    //    int x,z;
+    //    for(int i = 0; i < listX.Count; i++) { 
+    //        x = listX[i];
+    //        z = listZ[i];
+    //        board[z,x] = turn;
+    //        //変更(及川)
+    //        //pieceBox[z, x].transform.Rotate(new Vector3(0, 0, 180)); 
+    //        DebugBoard();
+            
+    //    }
+    //    StartCoroutine(rm.StartContinuousTurn(listX, listZ, pieceBox));//連続回転
+    //}
+
     //裏返す
-    private void OverPiece(List<int> listX,List<int> listZ){
-        int x,z;
-        for(int i = 0; i < listX.Count; i++) { 
+    private IEnumerator OverPiece(List<int> listX, List<int> listZ)
+    {
+        int x, z;
+        for (int i = 0; i < listX.Count; i++)
+        {
             x = listX[i];
             z = listZ[i];
-            board[z,x] = turn;
+            board[z, x] = turn;
             //変更(及川)
             //pieceBox[z, x].transform.Rotate(new Vector3(0, 0, 180)); 
             DebugBoard();
-            StartCoroutine(rm.StartContinuousTurn(listX, listZ, pieceBox));//連続回転
+
         }
+        yield return StartCoroutine(rm.StartContinuousTurn(listX, listZ, pieceBox));//連続回転
+        canCrick = true;
     }
     private void GameEnd() {
         Debug.Log("end");
