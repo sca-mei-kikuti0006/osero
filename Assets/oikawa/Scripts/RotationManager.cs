@@ -4,18 +4,7 @@ using UnityEngine;
 
 public class RotationManager : MonoBehaviour
 {
-    [SerializeField] List<PieceRotation> pieces; //オセロのピース
-    //List<PieceRotation> pieces; //オセロのピース
     PieceRotation p;
-    void Start()
-    {
-        //pieces = new List<PieceRotation>(16);//オセロのピースを入れる
-    }
-
-
-    void Update()
-    {
-    }
 
 
     public IEnumerator StartContinuousTurn(List<int> listX, List<int> listZ, GameObject[,] pieceBox)
@@ -28,7 +17,6 @@ public class RotationManager : MonoBehaviour
             z = listZ[i];
             pieceRotations.Enqueue(pieceBox[z, x].GetComponent<PieceRotation>());
             Debug.Log("Enqueued");
-           //yield return new WaitForSeconds(1);
         }
         int pieceCount = pieceRotations.Count;
         for (int i = 0; i < pieceCount; i++)
@@ -36,6 +24,5 @@ public class RotationManager : MonoBehaviour
             PieceRotation p = pieceRotations.Dequeue();
             yield return StartCoroutine(p.StartToss(PieceRotation.RotationDirection.Left));
         }
-
     }
 }

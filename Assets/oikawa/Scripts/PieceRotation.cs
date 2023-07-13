@@ -12,10 +12,10 @@ public class PieceRotation : MonoBehaviour
     private float rotatedAngle; //度数法
     private Vector3 startRotation;//上がりきったところでの回転角保存用
     private Vector3 reverseRot = new Vector3(0f, 180f, 0f);
-    //private Coroutine currentCoroutine;//現在実行中のコルーチン
+
     Queue<Coroutine> currentCoroutine = new Queue<Coroutine>(); //キューを宣言
 
-    [SerializeField] GameObject smoke;
+    [SerializeField] GameObject smoke; //スモーク生成用
 
     //黒か白か
     private bool White;
@@ -24,10 +24,7 @@ public class PieceRotation : MonoBehaviour
     bool fall = false; //最初に落ちないようfalseに
 
     Vector3 ini;
-    Vector3 pos;
 
-    //メインコントローラー
-    //[SerializeField] MainCon mc;
 
     //回転方向
     public enum RotationDirection
@@ -60,37 +57,17 @@ public class PieceRotation : MonoBehaviour
             White = false;
             Black = true;
         }
-
     }
 
     void Update()
     {
-        /*
-        //回転方向の決定
-        if (Input.GetKeyDown(KeyCode.A) && White == true)
-        {
-            rotDir = RotationDirection.Left;
-            currentCoroutine = StartCoroutine(Toss());//トス開始
-            White = false;
-            Black = true;
-        }
-        else if (Input.GetKeyDown(KeyCode.D) && Black == true)
-        {
-            rotDir = RotationDirection.Right;
-            currentCoroutine = StartCoroutine(Toss());//トス開始
-            White = true;
-            Black = false;
-        }
-        */
     }
 
     public IEnumerator StartToss(RotationDirection dir)
     {
         rotDir = dir;//回転方向を決定
-        Debug.Log("回転スタート");
-        //currentCoroutine = StartCoroutine(Toss());
+
         yield return StartCoroutine(Toss());
-        //currentCoroutine.Dequeue();
     }
 
 
@@ -133,11 +110,7 @@ public class PieceRotation : MonoBehaviour
                     if (rotatedAngle > 180.0f)
                     {
                         yield return StartCoroutine(Fall());
-                        //currentCoroutine.Enqueue(StartCoroutine(Fall()));//落下
-                        //currentCoroutine.Dequeue();
-                        //ResetRotation();
                         yield break;
-                        //StopCoroutine(currentCoroutine);//トスストップ
                     }
                     yield return null;
                 }
@@ -145,6 +118,7 @@ public class PieceRotation : MonoBehaviour
             yield return null;
         }
     }
+
 
     //落ちる用のコルーチンを書く（Fallとする）
     private IEnumerator Fall()
@@ -172,6 +146,7 @@ public class PieceRotation : MonoBehaviour
         }
     }
 
+    /*
     private void ResetRotation()
     {
         fall = false;
@@ -181,4 +156,5 @@ public class PieceRotation : MonoBehaviour
         q.eulerAngles = angle;
         transform.rotation = q;
     }
+    */
 }
