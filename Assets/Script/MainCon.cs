@@ -17,7 +17,7 @@ public class MainCon : MonoBehaviour
     private turnBW turn = turnBW.Black;//どっちのターンか
     private turnBW notTurn = turnBW.White;//ターンじゃない方
 
-    //おけるか
+    //クリック判定用
     bool canCrick = true;
 
     //盤面データ
@@ -88,7 +88,6 @@ public class MainCon : MonoBehaviour
                 }else{                      //初期配置以外は空
                     board[i, j] = turnBW.Not;
                 }
-
             }
         }
 
@@ -98,7 +97,6 @@ public class MainCon : MonoBehaviour
                 trap[i,j] = skill.Not;
             }
         }
-
         CanOver();
     }
 
@@ -122,11 +120,11 @@ public class MainCon : MonoBehaviour
         RaycastHit hit;
         if (Physics.Raycast(ray, out hit, 13.0f)){
             if (Input.GetMouseButtonDown(0) && canCrick == true){
-                canCrick = false;
                 int z = (int)hit.transform.position.z * -1;
                 int x = (int)hit.transform.position.x;
 
                 if (canOver[z, x] == true){//駒が置ける場所だったら
+                    canCrick = false;
                     pieceBox[z, x] = Instantiate(piece, new Vector3(hit.transform.position.x, 0.07f, hit.transform.position.z), Quaternion.Euler(0, 0, (int)turn));
                     board[z, x] = turn;
                     TurnOver(z, x,true);
@@ -168,7 +166,6 @@ public class MainCon : MonoBehaviour
             //確認用
             CUi.GetComponent<Image>().color = new Color(0.0f, 0.0f, 0.0f, 255.0f);
         }
-
         CanOver();
         CountPiece();
     }
@@ -210,7 +207,6 @@ public class MainCon : MonoBehaviour
         }
         BUi.text = string.Format("{00}", countB);
         WUi.text = string.Format("{00}", countW);
-
     }
 
     //置けるか
@@ -237,30 +233,26 @@ public class MainCon : MonoBehaviour
                 if (x < 0 || 7 < x || z < 0 || 7 < z) {
                     break;
                 }
-
                 if (firstF){
                     if(board[z,x] != notTurn) {
                         break;
                     }
                     firstF = false;
                 }
-
                 if (board[z,x] == notTurn) {
                     overListX.Add(x);
                     overListZ.Add(z);
-
                 }
                 else if(board[z,x] == turn) {
                     canOver[Z,X] = true;
-                    if(over == true) StartCoroutine(OverPiece(overListX, overListZ));
+                    if (over == true) StartCoroutine(OverPiece(overListX, overListZ));
                     isOver = true;
-
-                }else {
+                }
+                else {
                     break;
                 }
             }
         }
-
     }
 
     ////裏返す
@@ -287,10 +279,7 @@ public class MainCon : MonoBehaviour
             x = listX[i];
             z = listZ[i];
             board[z, x] = turn;
-            //変更(及川)
-            //pieceBox[z, x].transform.Rotate(new Vector3(0, 0, 180)); 
             DebugBoard();
-
         }
         yield return StartCoroutine(rm.StartContinuousTurn(listX, listZ, pieceBox));//連続回転
         canCrick = true;
