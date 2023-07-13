@@ -7,7 +7,6 @@ public class RotationManager : MonoBehaviour
     [SerializeField] List<PieceRotation> pieces; //オセロのピース
     //List<PieceRotation> pieces; //オセロのピース
     PieceRotation p;
-    Queue<PieceRotation> pieceRotations = new Queue<PieceRotation>();
     void Start()
     {
         //pieces = new List<PieceRotation>(16);//オセロのピースを入れる
@@ -22,6 +21,7 @@ public class RotationManager : MonoBehaviour
     public IEnumerator StartContinuousTurn(List<int> listX, List<int> listZ, GameObject[,] pieceBox)
     {
         int x, z;
+        Queue<PieceRotation> pieceRotations = new Queue<PieceRotation>();
         for (int i = 0; i < listX.Count; i++)
         {
             x = listX[i];
