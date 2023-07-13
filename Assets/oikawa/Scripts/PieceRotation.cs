@@ -3,8 +3,6 @@ using System.Collections.Generic;
 using UnityEngine;
 public class PieceRotation : MonoBehaviour
 {
-    [SerializeField] public int row;//何行目か0~3
-    [SerializeField] public int col;//何列目か0~3
 
     [SerializeField] private RotationDirection rotDir; //白か黒かの判別用
     private float x;
@@ -13,7 +11,9 @@ public class PieceRotation : MonoBehaviour
 
     private float rotatedAngle; //度数法
     private Vector3 startRotation;//上がりきったところでの回転角保存用
-    private Coroutine currentCoroutine;//現在実行中のコルーチン
+    private Vector3 reverseRot = new Vector3(0f, 180f, 0f);
+    //private Coroutine currentCoroutine;//現在実行中のコルーチン
+    Queue<Coroutine> currentCoroutine = new Queue<Coroutine>(); //キューを宣言
 
     [SerializeField] GameObject smoke;
 
@@ -25,6 +25,9 @@ public class PieceRotation : MonoBehaviour
 
     Vector3 ini;
     Vector3 pos;
+
+    //メインコントローラー
+    //[SerializeField] MainCon mc;
 
     //回転方向
     public enum RotationDirection
@@ -81,11 +84,13 @@ public class PieceRotation : MonoBehaviour
         */
     }
 
-    public void StartToss(RotationDirection dir)
+    public IEnumerator StartToss(RotationDirection dir)
     {
         rotDir = dir;//回転方向を決定
         Debug.Log("回転スタート");
-        currentCoroutine = StartCoroutine(Toss());
+        //currentCoroutine = StartCoroutine(Toss());
+        yield return StartCoroutine(Toss());
+        //currentCoroutine.Dequeue();
     }
 
 
@@ -107,14 +112,13 @@ public class PieceRotation : MonoBehaviour
         //回転準備
         Vector3 startPosition = transform.position;//トス前のコイン座標を保存
         Vector3 nextPosition = startPosition;
-
+        startRotation = transform.rotation.eulerAngles;
 
 
         //回転
-
         while (true)
         {
-            nextPosition.y += 0.01f;//次の移動場所はyを少し増やす
+            nextPosition.y += 0.03f;//次の移動場所はyを少し増やす
             transform.position = nextPosition;
 
             //移動距離が規定値を超えたら回転
@@ -128,14 +132,16 @@ public class PieceRotation : MonoBehaviour
                     //rotateAngleが180.0fより増えたら発動
                     if (rotatedAngle > 180.0f)
                     {
-                        StartCoroutine(Fall());//落下
-                        StopCoroutine(currentCoroutine);//トスストップ
+                        yield return StartCoroutine(Fall());
+                        //currentCoroutine.Enqueue(StartCoroutine(Fall()));//落下
+                        //currentCoroutine.Dequeue();
+                        //ResetRotation();
+                        yield break;
+                        //StopCoroutine(currentCoroutine);//トスストップ
                     }
-
                     yield return null;
                 }
             }
-
             yield return null;
         }
     }
@@ -155,28 +161,24 @@ public class PieceRotation : MonoBehaviour
             nextPosition.y -= 0.03f;//yを減らしながら移動
             transform.position = nextPosition;
 
-
-            if (transform.position.y <= 0.1f)
+            if (transform.position.y <= 0.07f)
             {
                 transform.position = ini;
                 GameObject PrefabSmoke = Instantiate(smoke, ini, Quaternion.identity); //smoke生成
                 Destroy(PrefabSmoke, 2.0f); //smoke削除
-                break;
+                yield break;
             }
             yield return null;
         }
     }
 
-    private void OnCollisionEnter(Collision collision)
+    private void ResetRotation()
     {
-        if (collision.gameObject.CompareTag("Board"))
-        {
-            fall = false;
-            Quaternion q = new Quaternion();
-            Vector3 angle;
-            angle = startRotation;
-            q.eulerAngles = angle;
-            transform.rotation = q;
-        }
+        fall = false;
+        Quaternion q = new Quaternion();
+        Vector3 angle;
+        angle = startRotation + reverseRot;
+        q.eulerAngles = angle;
+        transform.rotation = q;
     }
 }
