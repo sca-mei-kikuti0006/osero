@@ -21,6 +21,9 @@ public class MainCon : MonoBehaviour
     private turnBW turn = turnBW.Black;//どっちのターンか
     private turnBW notTurn = turnBW.White;//ターンじゃない方
 
+    //クリック判定用
+    bool canCrick = true;
+
     //盤面データ
     private turnBW[,] picecBoard = new turnBW[8, 8];
     //駒データ
@@ -36,6 +39,19 @@ public class MainCon : MonoBehaviour
     //ひっくり返す駒リスト
     List<int> overListX = new List<int>();
     List<int> overListZ = new List<int>();
+
+    //変更(及川)
+    public List<int> OverListX
+    { 
+        get { return overListX; }
+    }
+    public List<int> OverListZ
+    {
+        get { return overListZ; }
+    }
+
+    //回転用マネージャー
+    [SerializeField] RotationManager rm;
 
     //駒の数
     private int countB = 0;
@@ -213,6 +229,7 @@ public class MainCon : MonoBehaviour
 
         if (canBoard[z, x] == true && skillOn == false)
         {
+            canCrick = false;
             pieceBox[z, x] = Instantiate(piece, new Vector3(hit.transform.position.x, 0.07f, hit.transform.position.z), Quaternion.Euler(0, 0, (int)turn));
             if (trLightPlay == true && turn != trLightBW) {
                 skillOn = true;
@@ -355,7 +372,7 @@ public class MainCon : MonoBehaviour
                 else if (picecBoard[z, x] == turn)
                 {
                     canBoard[Z, X] = true;
-                    if (over == true) OverPiece(overListX, overListZ);
+                    if (over == true) StartCoroutine(OverPiece(overListX, overListZ));
                     isOver = true;
 
                 }
@@ -368,6 +385,7 @@ public class MainCon : MonoBehaviour
 
     }
 
+    /*
     //裏返す
     private void OverPiece(List<int> listX, List<int> listZ)
     {
@@ -379,6 +397,21 @@ public class MainCon : MonoBehaviour
             picecBoard[z, x] = turn;
             pieceBox[z, x].transform.Rotate(new Vector3(0, 0, 180));
         }
+    }
+    */
+
+    //裏返す
+    private IEnumerator OverPiece(List<int> listX, List<int> listZ)
+    {
+        int x, z;
+        for (int i = 0; i < listX.Count; i++)
+        {
+            x = listX[i];
+            z = listZ[i];
+            picecBoard[z, x] = turn;
+        }
+        yield return StartCoroutine(rm.StartContinuousTurn(listX, listZ, pieceBox));//連続回転
+        canCrick = true;
     }
 
     //ゲーム終了

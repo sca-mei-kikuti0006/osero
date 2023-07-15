@@ -138,7 +138,7 @@ public class PieceRotation : MonoBehaviour
             if (transform.position.y <= 0.07f)
             {
                 transform.position = ini;
-                GameObject PrefabSmoke = Instantiate(smoke, ini, Quaternion.identity); //smoke¶¬
+                GameObject PrefabSmoke = Instantiate(smoke, ini, Quaternion.Euler(90, 0, 0)); //smoke¶¬
                 Destroy(PrefabSmoke, 2.0f); //smokeíœ
                 yield break;
             }

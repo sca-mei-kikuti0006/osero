@@ -111,7 +111,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   rotDir: 0
-  z: 500
+  z: 1000
   smoke: {fileID: 7076094380719614067, guid: f5acd922d8e12f4438bb8034171df29b, type: 3}
 --- !u!54 &8690895484766248268
 Rigidbody:

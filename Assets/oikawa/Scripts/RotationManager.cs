@@ -4,9 +4,6 @@ using UnityEngine;
 
 public class RotationManager : MonoBehaviour
 {
-    PieceRotation p;
-
-
     public IEnumerator StartContinuousTurn(List<int> listX, List<int> listZ, GameObject[,] pieceBox)
     {
         int x, z;
@@ -19,6 +16,7 @@ public class RotationManager : MonoBehaviour
             Debug.Log("Enqueued");
         }
         int pieceCount = pieceRotations.Count;
+        Debug.Log(pieceCount);
         for (int i = 0; i < pieceCount; i++)
         {
             PieceRotation p = pieceRotations.Dequeue();
