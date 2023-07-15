@@ -11,9 +11,10 @@ GameObject:
   - component: {fileID: 8862169748324933461}
   - component: {fileID: 3844690095587618605}
   - component: {fileID: 474342155426177117}
+  - component: {fileID: 2301476112949318888}
   m_Layer: 6
   m_Name: Square
-  m_TagString: Board
+  m_TagString: Square
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -73,7 +74,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 1
   m_Sprite: {fileID: 7482667652216324306, guid: 48e93eef0688c4a259cb0eddcd8661f7, type: 3}
-  m_Color: {r: 0.027405597, g: 0.5188679, b: 0, a: 1}
+  m_Color: {r: 0.039215688, g: 0.5294118, b: 0.13725491, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -96,3 +97,15 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1, y: 1, z: 0.1}
   m_Center: {x: 0.00000023841858, y: -0.00000166893, z: 0.000000048574577}
+--- !u!114 &2301476112949318888
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2143858077457684157}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a53e8aaf559c545409cca8ba6d4cde05, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
