@@ -22,7 +22,7 @@ public class MainCon : MonoBehaviour
     private turnBW notTurn = turnBW.White;//ターンじゃない方
 
     //クリック判定用
-    bool canCrick = true;
+    bool canCrick = true; //変更
 
     //盤面データ
     private turnBW[,] picecBoard = new turnBW[8, 8];
@@ -161,7 +161,7 @@ public class MainCon : MonoBehaviour
         RaycastHit hit;
         if (Physics.Raycast(ray, out hit, 13.0f))
         {
-            if (Input.GetMouseButtonDown(0))
+            if (Input.GetMouseButtonDown(0) && canCrick == true) //変更
             {
                 int z = (int)hit.transform.position.z * -1;
                 int x = (int)hit.transform.position.x;
@@ -411,7 +411,14 @@ public class MainCon : MonoBehaviour
             picecBoard[z, x] = turn;
         }
         yield return StartCoroutine(rm.StartContinuousTurn(listX, listZ, pieceBox));//連続回転
+        StartCoroutine(WaitTime()); //待ち時間追加
         canCrick = true;
+    }
+
+    //待ち時間
+    private IEnumerator WaitTime()
+    {
+        yield return new WaitForSeconds(3);
     }
 
     //ゲーム終了
