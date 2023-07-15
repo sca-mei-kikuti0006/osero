@@ -29,6 +29,7 @@ public class OnCursorCon : MonoBehaviour
     private void OnMouseExit() {
         if (on){
             this.gameObject.GetComponent<Renderer>().material.color -= new Color(10,0,0,0.1f);
+            on = false;
         }
     }
 }
