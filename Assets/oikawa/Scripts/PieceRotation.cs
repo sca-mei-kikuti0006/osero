@@ -45,18 +45,18 @@ public class PieceRotation : MonoBehaviour
         //À•WŽæ“¾
         ini = initialTransform.position;
 
-        if (transform.rotation.z >= 0)
-        {
-            Debug.Log("White");
-            White = true;
-            Black = false;
-        }
-        else
-        {
-            Debug.Log("Black");
-            White = false;
-            Black = true;
-        }
+        //if (transform.rotation.z >= 0)
+        //{
+        //    Debug.Log("White");
+        //    White = true;
+        //    Black = false;
+        //}
+        //else
+        //{
+        //    Debug.Log("Black");
+        //    White = false;
+        //    Black = true;
+        //}
     }
 
     void Update()

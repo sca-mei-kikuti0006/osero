@@ -256,12 +256,16 @@ public class MainCon : MonoBehaviour
             turn = turnBW.White;
             notTurn = turnBW.Black;
 
+            Debug.Log(turn);
+
             uiCon.TurnChangeUiW();
         }
         else if (turn == turnBW.White)//白から黒
         {
             turn = turnBW.Black;
             notTurn = turnBW.White;
+
+            Debug.Log(turn);
 
             uiCon.TurnChangeUiB();
         }
@@ -639,6 +643,9 @@ public class MainCon : MonoBehaviour
 
     }
 
+    //及川変更
+    [SerializeField] GameObject Bom_1;
+
     //トラップ地雷
     private void SkillTrapLandmine(int z, int x)
     {
@@ -650,6 +657,10 @@ public class MainCon : MonoBehaviour
                     if (0 <= _x && _x <= 7)
                     {
                         Destroy(pieceBox[_z, _x]);
+
+                        //及川変更
+                        pieceBox[_z, _x] = Instantiate(Bom_1, new Vector3(_x, 0f, _z * -1), Quaternion.Euler(0, 0, 0));
+                        
                         picecBoard[_z, _x] = turnBW.Not;
                     }
                 }
@@ -661,12 +672,21 @@ public class MainCon : MonoBehaviour
 
     }
 
+    //及川変更
+    [SerializeField] GameObject Electric_1;
+    [SerializeField] GameObject Electric_2;
+
     //トラップ避雷針
     private void SkillTrapLightningrod(int z, int x)
     {
         Debug.Log("ok");
         Destroy(pieceBox[z, x]);
         pieceBox[trLightZ, trLightX] = Instantiate(piece, new Vector3(trLightX, 0.07f, trLightZ * -1), Quaternion.Euler(0, 0, (int)turn));
+
+        //及川変更
+        pieceBox[trLightZ, trLightX] = Instantiate(Electric_1, new Vector3(trLightX, 1.0f, trLightZ * -1), Quaternion.Euler(0, 0, 0));
+        pieceBox[trLightZ, trLightX] = Instantiate(Electric_2, new Vector3(trLightX, 1.0f, trLightZ * -1), Quaternion.Euler(0, 0, 0));
+
         picecBoard[trLightZ, trLightX] = turn;
         SearchTurnOver(trLightZ, trLightX, true);
         Destroy(trapBox[z, x]);
