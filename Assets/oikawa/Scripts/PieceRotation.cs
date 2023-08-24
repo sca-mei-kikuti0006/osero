@@ -20,6 +20,7 @@ public class PieceRotation : MonoBehaviour
     //エフェクトテスト用
     [SerializeField] GameObject Thunder;
     [SerializeField] GameObject Bom;
+    [SerializeField] GameObject Hit;
 
     //黒か白か
     private bool White;
@@ -142,15 +143,18 @@ public class PieceRotation : MonoBehaviour
             if (transform.position.y <= 0.07f)
             {
                 transform.position = ini;
-                GameObject PrefabSmoke = Instantiate(smoke, ini, Quaternion.Euler(90, 5, 0)); //smoke生成
-                Destroy(PrefabSmoke, 2.0f); //smoke削除
+                //GameObject PrefabSmoke = Instantiate(smoke, ini, Quaternion.Euler(90, 5, 0)); //smoke生成
+                //Destroy(PrefabSmoke, 2.0f); //smoke削除
 
                 //エフェクトテスト用
-                GameObject PrefabThunder = Instantiate(Thunder, ini, Quaternion.Euler(0, 0, 0));
-                Destroy(PrefabThunder, 2.0f);
+                //GameObject PrefabThunder = Instantiate(Thunder, ini, Quaternion.Euler(0, 0, 0));
+                //Destroy(PrefabThunder, 2.0f);
 
-                GameObject PrefabBom = Instantiate(Bom, ini, Quaternion.Euler(0, 0, 0));
-                Destroy(PrefabBom, 2.0f);
+                //GameObject PrefabBom = Instantiate(Bom, ini, Quaternion.Euler(0, 0, 0));
+                //Destroy(PrefabBom, 2.0f);
+
+                GameObject PrefabHit = Instantiate(Hit, ini, Quaternion.Euler(0, 0, 0));
+                Destroy(PrefabHit, 2.0f);
 
                 yield break;
             }
