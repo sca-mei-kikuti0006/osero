@@ -8,7 +8,7 @@ public class GameSystem : MonoBehaviour
 	//　スタートボタンを押したら実行する
 	public void StartGame()
 	{
-		SceneManager.LoadScene("Skill selection");
+		SceneManager.LoadScene("skillSetScene");
 	}
 
 	//　対局開始ボタンを押したら実行する

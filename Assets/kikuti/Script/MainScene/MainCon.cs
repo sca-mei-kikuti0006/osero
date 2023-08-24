@@ -11,7 +11,7 @@ public class MainCon : MonoBehaviour
     [SerializeField] private GameObject canShow;//置ける場所
     [SerializeField] private GameObject trapShow;//トラップ置いた場所
 
-    private enum turnBW
+    public enum turnBW
     {
         Black = 0,
         White = 180, //pieceをひっくり返すので180
@@ -23,6 +23,10 @@ public class MainCon : MonoBehaviour
 
     //クリック判定用
     bool canCrick = true; //変更
+    public bool CanCrick
+    {
+        get { return canCrick; }
+    }
 
     //盤面データ
     private turnBW[,] picecBoard = new turnBW[8, 8];
@@ -54,14 +58,8 @@ public class MainCon : MonoBehaviour
     [SerializeField] RotationManager rm;
 
     //駒の数
-    private int countB = 0;
-    public int CountB{ //UiConに渡す
-        get { return this.countB; }
-    }
-    private int countW = 0;
-    public int CountW { //UiConに渡す
-        get { return this.countW; }
-    }
+    public static int countB = 0;
+    public static int countW = 0;
 
     //スキルデータ
     private bool skillOn = false;
@@ -75,7 +73,7 @@ public class MainCon : MonoBehaviour
     public bool SkillOnMagic { //OnCursorConに渡す
         get { return this.skillOnMagic; } }
 
-    private enum skill
+    public enum skill
     {
         MgTenm = 1,
         MgStorm,
@@ -86,13 +84,10 @@ public class MainCon : MonoBehaviour
         Not
     }
 
+    private bool canSkill = true;
     private skill playSkill = skill.Not;
-    //private skill[] skillB = new skill[3];
-    private skill[] skillB = { skill.MgTenm, skill.MgStorm, skill.MgRever };//仮定
-    private bool[] skillBUse = new bool[3];
-    //private skill[] skillW = new skill[3];
-    private skill[] skillW = { skill.TrSetb, skill.TrLand, skill.TrLight };//仮定
-    private bool[] skillWUse = new bool[3];
+    public static skill[] skillB = new skill[3];
+    public static skill[] skillW = new skill[3];
 
     //トラップデータ
     private skill[,] trapBoard = new skill[8, 8];
@@ -171,7 +166,7 @@ public class MainCon : MonoBehaviour
                     PutSkillTrap(z, x, hit);
                 }
                 else if (skillOnMagic == true) {//マジック選択
-                   PutSkillMagic(z,x);
+                    PutSkillMagic(z,x);
                 }
                 else
                 {//駒設置
@@ -193,13 +188,11 @@ public class MainCon : MonoBehaviour
                 end = true;
             }
         }
-
     }
 
     //トラップ設置
     private void PutSkillTrap(int z, int x, RaycastHit hit)
     {
-        Debug.Log(playSkill);
         if (picecBoard[z, x] == turnBW.Not && trapBoard[z, x] == skill.Not)
         {
             trapBox[z,x] = Instantiate(trapShow, new Vector3(hit.transform.position.x, 0.07f, hit.transform.position.z), Quaternion.Euler(90.0f, 0, 0));
@@ -251,6 +244,7 @@ public class MainCon : MonoBehaviour
     //ターン交代
     private void TurnChange()
     {
+        canSkill = true;
         if (turn == turnBW.Black)//黒から白
         {
             turn = turnBW.White;
@@ -429,64 +423,78 @@ public class MainCon : MonoBehaviour
     }
 
     //スキル発動
-    public void SkillPlay(string skillBW,int skillNumber)
+    public bool SkillPlay(skill skill, string skillBW)
     {
-        skillOn = true;
+        bool play = false;
 
-        if (skillBW == "B"){
-            playSkill = skillB[skillNumber-1];
-        }
-        else if (skillBW == "W"){
-            playSkill = skillW[skillNumber-1];
-        }
-
-        switch (playSkill)
+        Debug.Log(skillBW + " " + turn);
+        if (((skillBW == "B" && turn == turnBW.Black) || (skillBW == "W" && turn == turnBW.White)) && canSkill)
         {
-            case skill.MgTenm:
-                if (mgStormPlay&&mgStormBW == notTurn){
-                    Debug.Log("使えません");
-                    mgStormPlay = false;
-                    skillOn = false;
-                }
-                else if (SearchSkill(2)){//角を２つ以上取られていないと発動出来ない
-                    SkillMagicTenma();
-                }
-                else{
-                    Debug.Log("使えません");
-                    skillOn = false;
-                }
-                break;
-            case skill.MgStorm:
-                mgStormBW = turn;
-                uiCon.SelectUiT();
-                break;
-            case skill.MgRever:
-                if (mgStormPlay && mgStormBW == notTurn)
-                {
-                    Debug.Log("使えません");
-                    mgStormPlay = false;
-                    skillOn = false;
-                }
-                else if (SearchSkill(1)){ //角を１つ以上取られていないと発動出来ない
-                    skillOnMagic = true;
-                }
-                else { 
-                    Debug.Log("使えません");
-                    skillOn = false;
-                }
-                break;
-            case skill.TrSetb:
-            case skill.TrLand:
-                skillOnTrap = true;
-                break;
-            case skill.TrLight:
-                trLightPlay = true;
-                trLightBW = turn;
-                skillOnTrap = true;
-                break;
-            default:
-                break;
+            playSkill = skill;
+            skillOn = true;
+            switch (playSkill)
+            {
+                case skill.MgTenm:
+                    if (mgStormPlay && mgStormBW == notTurn)
+                    {
+                        Debug.Log("使えません");
+                        mgStormPlay = false;
+                        skillOn = false;
+                    }
+                    else if (SearchSkill(2))
+                    {//角を２つ以上取られていないと発動出来ない
+                        SkillMagicTenma();
+                        play = true;
+                    }
+                    else
+                    {
+                        Debug.Log("使えません");
+                        skillOn = false;
+                    }
+                    break;
+                case skill.MgStorm:
+                    mgStormBW = turn;
+                    uiCon.SelectUiT();
+                    play = true;
+                    break;
+                case skill.MgRever:
+                    if (mgStormPlay && mgStormBW == notTurn)
+                    {
+                        Debug.Log("使えません");
+                        mgStormPlay = false;
+                        skillOn = false;
+                    }
+                    else if (SearchSkill(1))
+                    { //角を１つ以上取られていないと発動出来ない
+                        skillOnMagic = true;
+                        play = true;
+                    }
+                    else
+                    {
+                        Debug.Log("使えません");
+                        skillOn = false;
+                    }
+                    break;
+                case skill.TrSetb:
+                case skill.TrLand:
+                    skillOnTrap = true;
+                    play = true;
+                    break;
+                case skill.TrLight:
+                    trLightPlay = true;
+                    trLightBW = turn;
+                    skillOnTrap = true;
+                    play = true;
+                    break;
+                default:
+                    break;
+            }
         }
+
+        if (play) {
+            canSkill = false;
+        }
+        return play;
     }
 
     //スキル発動条件調べ
@@ -500,7 +508,7 @@ public class MainCon : MonoBehaviour
             }
         }
 
-        if(corner == 0) {
+        if(corner <= 0) {
             return true;
         }
         else { 
@@ -548,10 +556,11 @@ public class MainCon : MonoBehaviour
 
         if (pieceCount <= ran)
         {
+            ran = pieceCount;
             for (int c = 0; c < zList.Count; c++)
             {
                 picecBoard[zList[c], xList[c]] = turn;
-                pieceBox[zList[c], xList[c]].transform.Rotate(new Vector3(0, 0, 180));
+                StartCoroutine(PieceMagicTenma(zList[c], xList[c]));
             }
         }
         else
@@ -564,13 +573,57 @@ public class MainCon : MonoBehaviour
                 if (picecBoard[raZ, raX] == notTurn)
                 {
                     picecBoard[raZ, raX] = turn;
-                    pieceBox[raZ, raX].transform.Rotate(new Vector3(0, 0, 180));
+                    StartCoroutine(PieceMagicTenma(raZ, raX));
                     count++;
                 }
             }
         }
 
+        uiCon.DiceUi(ran);
+
+        CanPut();
         skillOn = false;
+    }
+
+    private IEnumerator PieceMagicTenma(int z,int x) {
+        float move = pieceBox[z, x].transform.position.y;
+        while (move < 0.5f)
+        {
+            move += Time.deltaTime * 4.0f;
+            if (move > 0.5f)
+            {
+                move = 0.5f;
+            }
+            pieceBox[z, x].transform.position = new Vector3(pieceBox[z, x].transform.position.x, move, pieceBox[z, x].transform.position.z);
+            yield return null;
+        }
+
+        move = 0;
+        while (move < 180)
+        {
+            float mo = Time.deltaTime * 500.0f;
+            move += mo;
+            if (move > 180)
+            {
+                mo -= move - 180;
+                move = 180;
+            }
+            pieceBox[z, x].transform.Rotate(new Vector3(0, 0, mo));
+            yield return null;
+        }
+
+        move = pieceBox[z, x].transform.position.y;
+        while (move > 0.07f)
+        {
+            move -= Time.deltaTime * 4.3f;
+            if (move < 0.07f)
+            {
+                move = 0.07f;
+            }
+            pieceBox[z, x].transform.position = new Vector3(pieceBox[z, x].transform.position.x, move, pieceBox[z, x].transform.position.z);
+            yield return null;
+        }
+
     }
 
     //マジック嵐の護符
@@ -585,6 +638,22 @@ public class MainCon : MonoBehaviour
             skillOnMagic = true;
         }
     }
+
+    //トラップがあるか
+    public bool SearchMagicStormTr() {
+        for (int z = 0; z < 8; z++) {
+            for (int x = 0; x < 8; x++)
+            {
+                if (trapBoard[z, x] != skill.Not)
+                {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
+
     //嵐の護符トラップに発動
     private void SkillMagicStormTr(int z,int x){
         skillOnMagic = false;
@@ -626,6 +695,7 @@ public class MainCon : MonoBehaviour
             }
         }
 
+        CanPut();
         skillOn = false;
     }
 
@@ -636,7 +706,7 @@ public class MainCon : MonoBehaviour
         Destroy(trapBox[z, x]);
         trapBoard[z,x] = skill.Not;
         skillOn = false;
-
+        canCrick = true;
     }
 
     //トラップ地雷
@@ -658,13 +728,12 @@ public class MainCon : MonoBehaviour
         Destroy(trapBox[z, x]);
         trapBoard[z, x] = skill.Not;
         skillOn = false;
-
+        canCrick = true;
     }
 
     //トラップ避雷針
     private void SkillTrapLightningrod(int z, int x)
     {
-        Debug.Log("ok");
         Destroy(pieceBox[z, x]);
         pieceBox[trLightZ, trLightX] = Instantiate(piece, new Vector3(trLightX, 0.07f, trLightZ * -1), Quaternion.Euler(0, 0, (int)turn));
         picecBoard[trLightZ, trLightX] = turn;
@@ -673,7 +742,7 @@ public class MainCon : MonoBehaviour
         trapBoard[z, x] = skill.Not;
         trLightPlay = false;
         skillOn = false;
-
+        canCrick = true;
     }
 
 }

@@ -25,7 +25,10 @@ public class SelectButtonReturn : MonoBehaviour
             mainCon.SkillMagicStorm(true);
         }
         else if(select == "Tr") {
-            mainCon.SkillMagicStorm(false);
+            if (mainCon.SearchMagicStormTr())
+            {
+                mainCon.SkillMagicStorm(false);
+            }
         }
     }
 }
