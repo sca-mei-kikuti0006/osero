@@ -14,4 +14,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/kikuti/Scenes/mainScene.unity
     guid: 65277722c1bc65449bc1e35f059e2561
+  - enabled: 1
+    path: Assets/kikuti/Scenes/resultScene.unity
+    guid: 9a94c4e15db5fc3468da9f8199f41cb5
   m_configObjects: {}

@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 //オセロのみの機能のスクリプト
 
@@ -420,6 +421,7 @@ public class MainCon : MonoBehaviour
     {
         Debug.Log("end");
         Application.Quit();
+        SceneManager.LoadScene("resultScene");
     }
 
     //スキル発動

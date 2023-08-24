@@ -21,6 +21,8 @@ public class UiCon : MonoBehaviour
     [SerializeField] private Sprite dice2;
     [SerializeField] private Sprite dice3;
 
+    [SerializeField] private Canvas canvas;
+
 
     private MainCon mainCon;
 
@@ -29,6 +31,8 @@ public class UiCon : MonoBehaviour
     {
         mainCon = GetComponent<MainCon>();
         SelectUiF();
+
+        dice.gameObject.SetActive(false);
     }
 
     // Update is called once per frame
@@ -61,8 +65,8 @@ public class UiCon : MonoBehaviour
 
     public void DiceUi(int ran)
     {
-        Image di = Instantiate(dice);
-        GameObject image = di.transform.Find("Image").gameObject;
+        dice.gameObject.SetActive(true);
+        GameObject image = dice.transform.Find("Image").gameObject;
         Image im = image.GetComponent<Image>();
         if (ran == 1)
         {
