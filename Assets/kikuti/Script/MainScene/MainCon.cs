@@ -106,6 +106,10 @@ public class MainCon : MonoBehaviour
 
     private UiCon uiCon;
 
+    //エフェクト用(テスト中)
+    //[SerializeField] GameObject storm;
+
+
     // Start is called before the first frame update
     void Start()
     {

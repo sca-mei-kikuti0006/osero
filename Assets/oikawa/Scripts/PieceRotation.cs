@@ -18,9 +18,9 @@ public class PieceRotation : MonoBehaviour
     [SerializeField] GameObject smoke; //スモーク生成用
 
     //エフェクトテスト用
-    [SerializeField] GameObject Thunder;
-    [SerializeField] GameObject Bom;
-    [SerializeField] GameObject Hit;
+    //[SerializeField] GameObject Thunder;
+    //[SerializeField] GameObject Bom;
+    //[SerializeField] GameObject Hit;
 
     //黒か白か
     private bool White;
@@ -153,8 +153,8 @@ public class PieceRotation : MonoBehaviour
                 //GameObject PrefabBom = Instantiate(Bom, ini, Quaternion.Euler(0, 0, 0));
                 //Destroy(PrefabBom, 2.0f);
 
-                GameObject PrefabHit = Instantiate(Hit, ini, Quaternion.Euler(0, 0, 0));
-                Destroy(PrefabHit, 2.0f);
+                //GameObject PrefabHit = Instantiate(Hit, ini, Quaternion.Euler(0, 0, 0));
+                //Destroy(PrefabHit, 2.0f);
 
                 yield break;
             }
