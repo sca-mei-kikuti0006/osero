@@ -26,9 +26,6 @@ public class SkillPlayCon : MonoBehaviour
         set { skillNumber = value; }
     }
 
-    private bool[] canSkillB = { true, true, true };
-    private bool[] canSkillW = { true, true, true };
-
     // Start is called before the first frame update
     void Start()
     {
@@ -46,11 +43,11 @@ public class SkillPlayCon : MonoBehaviour
         bool can = false;
         if (skillBW == "B")
         {
-            can = canSkillB[skillNumber - 1];
+            can = mainCon.canSkillB[skillNumber - 1];
         }
         else if (skillBW == "W")
         {
-            can = canSkillW[skillNumber - 1];
+            can = mainCon.canSkillW[skillNumber - 1];
         }
 
         bool play = false;
@@ -61,11 +58,11 @@ public class SkillPlayCon : MonoBehaviour
             {
                 if (skillBW == "B")
                 {
-                    canSkillB[skillNumber - 1] = false;
+                    mainCon.canSkillB[skillNumber - 1] = false;
                 }
                 else if (skillBW == "W")
                 {
-                    canSkillW[skillNumber - 1] = false;
+                    mainCon.canSkillW[skillNumber - 1] = false;
                 }
             }
         }

@@ -18,11 +18,12 @@ public class SkillButtonReturn : MonoBehaviour
 
     [SerializeField] private Image skillComent;
     [SerializeField] private Text comentText;
+    [SerializeField] private Button playButt;
     [SerializeField] private Image comentImage;
     private Image comImage;
 
-
     private MainCon.skill skill = MainCon.skill.Not;
+    private MainCon.turnBW BW = MainCon.turnBW.Not;
     private string bw;
     private int number;
 
@@ -42,9 +43,11 @@ public class SkillButtonReturn : MonoBehaviour
         number = int.Parse(this.gameObject.name.Substring(6, 1));
         if (bw == "B") {
             skill = MainCon.skillB[number-1];
+            BW = MainCon.turnBW.Black;
         }else if (bw == "W")
         {
             skill = MainCon.skillW[number-1];
+            BW = MainCon.turnBW.White;
         }
 
         switch (skill) {
@@ -81,6 +84,12 @@ public class SkillButtonReturn : MonoBehaviour
     public void OnClick() {
         if (mainCon.CanCrick)
         {
+            playButt.gameObject.SetActive(true);
+            if (!mainCon.SearchSkillUi(skill, BW, number - 1))
+            {
+                playButt.gameObject.SetActive(false);
+            }
+
             switch (skill)
             {
                 case MainCon.skill.MgTenm:
