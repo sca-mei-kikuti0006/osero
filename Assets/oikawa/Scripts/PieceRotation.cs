@@ -18,15 +18,17 @@ public class PieceRotation : MonoBehaviour
     [SerializeField] GameObject smoke; //スモーク生成用
 
     //エフェクトテスト用
-    //[SerializeField] GameObject Thunder;
-    //[SerializeField] GameObject Bom;
-    //[SerializeField] GameObject Hit;
-
+    /*
+    GameObject Bom = MainCon.BomEfect;
+    GameObject Thunder = MainCon.ThunderEfect;
+    GameObject Hit = MainCon.HitEfecte;
+    */
+    
     //黒か白か
-    private bool White;
-    private bool Black;
+    //private bool White;
+    //private bool Black;
 
-    bool fall = false; //最初に落ちないようfalseに
+    //bool fall = false; //最初に落ちないようfalseに
 
     Vector3 ini;
 
@@ -50,6 +52,7 @@ public class PieceRotation : MonoBehaviour
         //座標取得
         ini = initialTransform.position;
 
+        /*
         if (transform.rotation.z >= 0)
         {
             Debug.Log("White");
@@ -62,6 +65,7 @@ public class PieceRotation : MonoBehaviour
             White = false;
             Black = true;
         }
+        */
     }
 
     void Update()
@@ -108,8 +112,8 @@ public class PieceRotation : MonoBehaviour
             {
                 while (true)
                 {
-                    transform.Rotate(new Vector3(x, y, z) * Time.deltaTime); //回転
-                    rotatedAngle += Mathf.Abs(z) * Time.deltaTime; //ｚの値が1より小さいのでここで度数法に変換
+                    transform.Rotate(new Vector3(x, y, z)* 5 * Time.deltaTime); //回転
+                    rotatedAngle += Mathf.Abs(z) * 5 * Time.deltaTime; //ｚの値が1より小さいのでここで度数法に変換
 
                     //rotateAngleが180.0fより増えたら発動
                     if (rotatedAngle > 180.0f)
@@ -131,6 +135,8 @@ public class PieceRotation : MonoBehaviour
         rotatedAngle = 0.0f; //角度を0に戻す
         rotDir = RotationDirection.Stop; //停止
 
+       
+
         //落下準備
         Vector3 startPosition = transform.position;//トス前のコイン座標を保存
         Vector3 nextPosition = startPosition;
@@ -143,18 +149,20 @@ public class PieceRotation : MonoBehaviour
             if (transform.position.y <= 0.07f)
             {
                 transform.position = ini;
-                //GameObject PrefabSmoke = Instantiate(smoke, ini, Quaternion.Euler(90, 5, 0)); //smoke生成
-                //Destroy(PrefabSmoke, 2.0f); //smoke削除
+                GameObject PrefabSmoke = Instantiate(smoke, ini, Quaternion.Euler(90, 5, 0)); //smoke生成
+                Destroy(PrefabSmoke, 2.0f); //smoke削除
 
                 //エフェクトテスト用
-                //GameObject PrefabThunder = Instantiate(Thunder, ini, Quaternion.Euler(0, 0, 0));
-                //Destroy(PrefabThunder, 2.0f);
+                /*
+                GameObject PrefabThunder = Instantiate(Thunder);
+                Destroy(PrefabThunder, 2.0f);
 
-                //GameObject PrefabBom = Instantiate(Bom, ini, Quaternion.Euler(0, 0, 0));
-                //Destroy(PrefabBom, 2.0f);
+                GameObject PrefabBom = Instantiate(Bom);
+                Destroy(PrefabBom, 2.0f);
 
-                //GameObject PrefabHit = Instantiate(Hit, ini, Quaternion.Euler(0, 0, 0));
-                //Destroy(PrefabHit, 2.0f);
+                GameObject PrefabHit = Instantiate(Hit);
+                Destroy(PrefabHit, 2.0f);
+                */
 
                 yield break;
             }

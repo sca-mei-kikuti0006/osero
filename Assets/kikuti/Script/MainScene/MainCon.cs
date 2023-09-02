@@ -108,7 +108,15 @@ public class MainCon : MonoBehaviour
 
     //エフェクト用(テスト中)
     [SerializeField] GameObject storm;
+    /*
+    public static GameObject BomEfect = GameObject.Find("CFX_Explosion_B_Smoke+Text");
+    public static GameObject ThunderEfect = GameObject.Find("CFX3_Hit_Electric_A_Ground");
+    public static GameObject HitEfecte = GameObject.Find("CFX_Hit_C White");
 
+    public static bool BomEfectSet = false;
+    public static bool ThunderEfectSet = false;
+    public static bool HitEfectSet = false;
+    */
 
     // Start is called before the first frame update
     void Start()
@@ -669,7 +677,6 @@ public class MainCon : MonoBehaviour
 
             //及川エフェクト追加
             GameObject PrefabStorm = Instantiate(storm);
-            PrefabStorm.transform.position = this.transform.position;
 
             skillOn = false;
         }
@@ -683,7 +690,7 @@ public class MainCon : MonoBehaviour
         List<int> zList = new List<int>();
         for (int z = 0; z < 8; z++){
             if(picecBoard[z,x] == notTurn) { 
-                pieceCount++;    
+                pieceCount++;
                 zList.Add(z);
             }
         }
