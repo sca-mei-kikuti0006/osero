@@ -89,6 +89,8 @@ public class MainCon : MonoBehaviour
     private skill playSkill = skill.Not;
     public static skill[] skillB = new skill[3];
     public static skill[] skillW = new skill[3];
+    public bool[] canSkillB = { true, true, true };
+    public bool[] canSkillW = { true, true, true };
 
     //トラップデータ
     private skill[,] trapBoard = new skill[8, 8];
@@ -256,6 +258,7 @@ public class MainCon : MonoBehaviour
             notTurn = turnBW.Black;
 
             uiCon.TurnChangeUiW();
+            uiCon.ImageT(turn);
         }
         else if (turn == turnBW.White)//白から黒
         {
@@ -263,6 +266,7 @@ public class MainCon : MonoBehaviour
             notTurn = turnBW.White;
 
             uiCon.TurnChangeUiB();
+            uiCon.ImageT(turn);
         }
 
         CountPiece();
@@ -427,6 +431,49 @@ public class MainCon : MonoBehaviour
         SceneManager.LoadScene("resultScene");
     }
 
+    //スキル発動できるか
+    public bool SearchSkillUi(skill skill,turnBW skillBW,int number) {
+        if(skillBW != turn || !canSkill) {
+            return false;
+        }
+
+        if(skillBW == turnBW.Black) {
+            if (!canSkillB[number]) { 
+                return false;
+                }
+        }
+        else if (skillBW == turnBW.White)
+        {
+            if (!canSkillW[number])
+            {
+                return false;
+            }
+        }
+
+        switch (skill)
+        {
+            case skill.MgTenm:
+                if (!SearchSkill(2)) { 
+                    return false;
+                }
+                break;
+            case skill.MgStorm:
+                break;
+            case skill.MgRever:
+                if (!SearchSkill(1)){
+                    return false;
+                }
+                break;
+            case skill.TrSetb:
+            case skill.TrLand:
+            case skill.TrLight:
+            default:
+                break;
+        }
+        return true;
+
+    }
+
     //スキル発動
     public bool SkillPlay(skill skill, string skillBW)
     {
@@ -498,6 +545,7 @@ public class MainCon : MonoBehaviour
 
         if (play) {
             canSkill = false;
+            uiCon.ImageS();
         }
         return play;
     }
@@ -566,6 +614,8 @@ public class MainCon : MonoBehaviour
             {
                 picecBoard[zList[c], xList[c]] = turn;
                 StartCoroutine(PieceMagicTenma(zList[c], xList[c]));
+
+                //及川エフェクト追加
             }
         }
         else
@@ -579,6 +629,9 @@ public class MainCon : MonoBehaviour
                 {
                     picecBoard[raZ, raX] = turn;
                     StartCoroutine(PieceMagicTenma(raZ, raX));
+
+                    //及川エフェクト追加
+
                     count++;
                 }
             }
@@ -691,6 +744,8 @@ public class MainCon : MonoBehaviour
             for(int c = 0;c < zList.Count; c++) { 
                 picecBoard[zList[c],x] = turn;
                 pieceBox[zList[c], x].transform.Rotate(new Vector3(0, 0, 180));
+
+                //及川エフェクト追加
             }
         }
         else {
@@ -701,6 +756,8 @@ public class MainCon : MonoBehaviour
                     picecBoard[ran, x] = turn;
                     pieceBox[ran, x].transform.Rotate(new Vector3(0, 0, 180));
                     count++;
+
+                    //及川エフェクト追加
                 }
             }
         }
@@ -714,6 +771,9 @@ public class MainCon : MonoBehaviour
     private void SkillTrapSetback(int z,int x) {
         Destroy(pieceBox[z, x]);
         Destroy(trapBox[z, x]);
+
+        //及川エフェクト追加
+
         trapBoard[z,x] = skill.Not;
         skillOn = false;
         canCrick = true;
@@ -737,6 +797,9 @@ public class MainCon : MonoBehaviour
         }
         Destroy(trapBox[z, x]);
         trapBoard[z, x] = skill.Not;
+
+        //及川エフェクト追加
+
         skillOn = false;
         canCrick = true;
     }
@@ -750,6 +813,9 @@ public class MainCon : MonoBehaviour
         SearchTurnOver(trLightZ, trLightX, true);
         Destroy(trapBox[z, x]);
         trapBoard[z, x] = skill.Not;
+
+        //及川エフェクト追加
+
         trLightPlay = false;
         skillOn = false;
         canCrick = true;

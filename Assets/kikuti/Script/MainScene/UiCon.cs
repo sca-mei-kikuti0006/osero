@@ -21,6 +21,10 @@ public class UiCon : MonoBehaviour
     [SerializeField] private Sprite dice2;
     [SerializeField] private Sprite dice3;
 
+
+    [SerializeField] private GameObject imageB;
+    [SerializeField] private GameObject imageW;
+
     [SerializeField] private Canvas canvas;
 
 
@@ -33,6 +37,8 @@ public class UiCon : MonoBehaviour
         SelectUiF();
 
         dice.gameObject.SetActive(false);
+
+        ImageT(MainCon.turnBW.Black);
     }
 
     // Update is called once per frame
@@ -79,6 +85,64 @@ public class UiCon : MonoBehaviour
         else if (ran == 3)
         {
             im.sprite = dice3;
+        }
+
+    }
+
+    public void ImageT(MainCon.turnBW turn) {
+        if(turn == MainCon.turnBW.Black) {
+            for (int i = 0; i < 3; i++)
+            {
+                GameObject imagew = imageW.transform.GetChild(i).gameObject;
+                imagew.gameObject.SetActive(true);
+
+            }
+            for (int i = 0; i < 3; i++)
+            {
+                if (!mainCon.canSkillB[i])
+                {
+                    GameObject imageb = imageB.transform.GetChild(i).gameObject;
+                    imageb.gameObject.SetActive(true);
+                }
+                else
+                {
+                    GameObject imageb = imageB.transform.GetChild(i).gameObject;
+                    imageb.gameObject.SetActive(false);
+                }
+            }
+        }
+        else if (turn == MainCon.turnBW.White)
+        {
+            for (int i = 0; i < 3; i++)
+            {
+                GameObject imageb = imageB.transform.GetChild(i).gameObject;
+                imageb.gameObject.SetActive(true);
+
+            }
+            for (int i = 0; i < 3; i++)
+            {
+                if (!mainCon.canSkillW[i])
+                {
+                    GameObject imagew = imageW.transform.GetChild(i).gameObject;
+                    imagew.gameObject.SetActive(true);
+                }
+                else
+                {
+                    GameObject imagew = imageW.transform.GetChild(i).gameObject;
+                    imagew.gameObject.SetActive(false);
+                }
+            }
+        }
+    }
+
+    public void ImageS(){
+        for (int i = 0; i < 3; i++)
+        {
+            GameObject imageb = imageB.transform.GetChild(i).gameObject;
+            imageb.gameObject.SetActive(true);
+            GameObject imagew = imageW.transform.GetChild(i).gameObject;
+            imagew.gameObject.SetActive(true);
+
         }
 
     }
