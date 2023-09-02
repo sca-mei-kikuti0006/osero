@@ -1217,6 +1217,7 @@ MonoBehaviour:
   canShow: {fileID: 5550635248009207353, guid: 1bcb31c03eda49a4e975e5c1871f5854, type: 3}
   trapShow: {fileID: 190477775741549449, guid: 7e71b5df5120891448610040ed095e65, type: 3}
   rm: {fileID: 254928645}
+  storm: {fileID: 100000, guid: 352304b7fbe11f445970df6ae36e6227, type: 3}
 --- !u!4 &341814567
 Transform:
   m_ObjectHideFlags: 0

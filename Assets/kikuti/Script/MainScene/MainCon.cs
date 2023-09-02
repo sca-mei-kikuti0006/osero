@@ -107,7 +107,7 @@ public class MainCon : MonoBehaviour
     private UiCon uiCon;
 
     //エフェクト用(テスト中)
-    //[SerializeField] GameObject storm;
+    [SerializeField] GameObject storm;
 
 
     // Start is called before the first frame update
@@ -417,7 +417,7 @@ public class MainCon : MonoBehaviour
     //待ち時間
     private IEnumerator WaitTime()
     {
-        yield return new WaitForSeconds(3);
+        yield return new WaitForSeconds(1);
     }
 
     //ゲーム終了
@@ -666,6 +666,11 @@ public class MainCon : MonoBehaviour
         if (trapBoard[z,x] != skill.Not) { 
             trapBoard[z,x] = skill.Not;
             Destroy(trapBox[z, x]);
+
+            //及川エフェクト追加
+            GameObject PrefabStorm = Instantiate(storm);
+            PrefabStorm.transform.position = this.transform.position;
+
             skillOn = false;
         }
     }
