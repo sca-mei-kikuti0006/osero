@@ -17,8 +17,8 @@ public class ResultCon : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        //StartCoroutine(Count(MainCon.countB,countBUi));
-        //StartCoroutine(Count(MainCon.countW, countWUi));
+        StartCoroutine(Count(MainCon.countB,countBUi));
+        StartCoroutine(Count(MainCon.countW, countWUi));
 
         winTextUi.gameObject.SetActive(false);
         winAnim = winTextUi.GetComponent<Animator>();

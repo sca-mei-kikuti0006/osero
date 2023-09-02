@@ -424,7 +424,6 @@ public class MainCon : MonoBehaviour
     private void GameEnd()
     {
         Debug.Log("end");
-        Application.Quit();
         SceneManager.LoadScene("resultScene");
     }
 
