@@ -1370,6 +1370,16 @@ MonoBehaviour:
   canSkillB: 010101
   canSkillW: 010101
   storm: {fileID: 100000, guid: 352304b7fbe11f445970df6ae36e6227, type: 3}
+  setback: {fileID: 100000, guid: aa3fed151f536ee49b583c6a3ac4a2e1, type: 3}
+  diceHole: {fileID: 100000, guid: 3d4907e6bd39f474b8fd8220920e65c4, type: 3}
+  halo: {fileID: 100000, guid: ada5d62ffe762ce4fbccc70dcdbc9022, type: 3}
+  magicSquare: {fileID: 100006, guid: 60bc526f4be1e044ab9e46340b82ffb3, type: 3}
+  strayLight: {fileID: 1781930563638536, guid: daa6cceb1b087d74aad6916dac2805ea, type: 3}
+  bomLandMark: {fileID: 100000, guid: 7b56cd9b663f23f429e131a54ec87db0, type: 3}
+  bom: {fileID: 1134129239631916, guid: 7e48ba6b1b968764490bbc70b66e3fe1, type: 3}
+  bomFire: {fileID: 1727626132299242, guid: b0bc1b6b391734647b9bb142bafc0819, type: 3}
+  thunderBolt: {fileID: 100008, guid: 1ca16f2a31fb6a548ad8954bed1d321f, type: 3}
+  splashingThunder: {fileID: 1628744458893394, guid: e243632bb3aff9549abdcfcc2ef0c4f0, type: 3}
 --- !u!4 &341814567
 Transform:
   m_ObjectHideFlags: 0
@@ -4087,7 +4097,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: -2
   m_Sprite: {fileID: 7482667652216324306, guid: 48e93eef0688c4a259cb0eddcd8661f7, type: 3}
   m_Color: {r: 0, g: 0, b: 0, a: 1}
   m_FlipX: 0

@@ -108,19 +108,32 @@ public class MainCon : MonoBehaviour
 
     private UiCon uiCon;
 
-    //エフェクト用(テスト中)
-    [SerializeField] GameObject storm;
-    /*
-    public static GameObject BomEfect = GameObject.Find("CFX_Explosion_B_Smoke+Text");
-    public static GameObject ThunderEfect = GameObject.Find("CFX3_Hit_Electric_A_Ground");
-    public static GameObject HitEfecte = GameObject.Find("CFX_Hit_C White");
+    //エフェクト用
+    //嵐の護符
+    [SerializeField] GameObject storm; 
 
-    public static bool BomEfectSet = false;
-    public static bool ThunderEfectSet = false;
-    public static bool HitEfectSet = false;
-    */
+    //セットバック
+    [SerializeField] GameObject setback;
 
-    // Start is called before the first frame update
+    //天魔のサイコロ
+    [SerializeField] GameObject diceHole;
+
+    //逆転への布石
+    [SerializeField] GameObject halo;
+    [SerializeField] GameObject magicSquare;
+    [SerializeField] GameObject strayLight;
+
+    //地雷
+    [SerializeField] GameObject bomLandMark;
+    [SerializeField] GameObject bom;
+    [SerializeField] GameObject bomFire;
+
+    //避雷針
+    [SerializeField] GameObject thunderBolt;
+    [SerializeField] GameObject splashingThunder;
+   
+
+
     void Start()
     {
         uiCon = GetComponent<UiCon>();
@@ -624,6 +637,7 @@ public class MainCon : MonoBehaviour
                 StartCoroutine(PieceMagicTenma(zList[c], xList[c]));
 
                 //及川エフェクト追加
+   
             }
         }
         else
@@ -675,6 +689,13 @@ public class MainCon : MonoBehaviour
                 move = 180;
             }
             pieceBox[z, x].transform.Rotate(new Vector3(0, 0, mo));
+
+            //及川エフェクト追加
+            float scale = 0.1f;
+            GameObject PrefabDiceHole = GameObject.Instantiate(diceHole, pieceBox[z,x].transform.position, Quaternion.Euler(270, 0, 0));
+            PrefabDiceHole.transform.localScale = new Vector3(scale, 0, scale);
+            Destroy(PrefabDiceHole.gameObject, 2.0f);
+
             yield return null;
         }
 
@@ -728,7 +749,8 @@ public class MainCon : MonoBehaviour
             Destroy(trapBox[z, x]);
 
             //及川エフェクト追加
-            GameObject PrefabStorm = Instantiate(storm);
+            GameObject PrefabStorm = Instantiate(storm, new Vector3(3.5f,3.5f,-3.5f),Quaternion.Euler(270,0,0));
+            Destroy(PrefabStorm.gameObject,2.0f);
 
             skillOn = false;
         }
@@ -780,6 +802,8 @@ public class MainCon : MonoBehaviour
         Destroy(trapBox[z, x]);
 
         //及川エフェクト追加
+        GameObject PrefabSetBack = GameObject.Instantiate(setback, pieceBox[z,x].transform.position, Quaternion.Euler(0, 0, 0));
+        Destroy(PrefabSetBack.gameObject, 2.0f);
 
         trapBoard[z,x] = skill.Not;
         skillOn = false;
