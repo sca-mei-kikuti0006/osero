@@ -512,7 +512,9 @@ public class MainCon : MonoBehaviour
                     {
                         Debug.Log("g‚¦‚Ü‚¹‚ñ");
                         mgStormPlay = false;
+                        uiCon.StormTextOn(false);
                         skillOn = false;
+                        play = true;
                     }
                     else if (SearchSkill(2))
                     {//Šp‚ğ‚Q‚ÂˆÈãæ‚ç‚ê‚Ä‚¢‚È‚¢‚Æ”­“®o—ˆ‚È‚¢
@@ -535,7 +537,9 @@ public class MainCon : MonoBehaviour
                     {
                         Debug.Log("g‚¦‚Ü‚¹‚ñ");
                         mgStormPlay = false;
+                        uiCon.StormTextOn(false);
                         skillOn = false;
+                        play = true;
                     }
                     else if (SearchSkill(1))
                     { //Šp‚ğ‚P‚ÂˆÈãæ‚ç‚ê‚Ä‚¢‚È‚¢‚Æ”­“®o—ˆ‚È‚¢
@@ -720,6 +724,7 @@ public class MainCon : MonoBehaviour
         if (select) { 
             mgStormPlay = true;
             skillOn = false;
+            uiCon.StormTextOn(true);
         }
         else {
             skillOnMagic = true;

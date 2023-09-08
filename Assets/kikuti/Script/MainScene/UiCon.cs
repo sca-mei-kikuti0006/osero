@@ -27,6 +27,8 @@ public class UiCon : MonoBehaviour
 
     [SerializeField] private Canvas canvas;
 
+    [SerializeField] private Text stormText;
+
 
     private MainCon mainCon;
 
@@ -37,6 +39,7 @@ public class UiCon : MonoBehaviour
         SelectUiF();
 
         dice.gameObject.SetActive(false);
+        stormText.gameObject.SetActive(false);
 
         ImageT(MainCon.turnBW.Black);
     }
@@ -145,5 +148,15 @@ public class UiCon : MonoBehaviour
 
         }
 
+    }
+
+    public void StormTextOn(bool on) {
+        if (on)
+        {
+            stormText.gameObject.SetActive(on);
+        }
+        else{
+            stormText.gameObject.SetActive(on);
+        }
     }
 }
