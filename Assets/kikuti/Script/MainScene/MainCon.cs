@@ -780,6 +780,16 @@ public class MainCon : MonoBehaviour
                 pieceBox[zList[c], x].transform.Rotate(new Vector3(0, 0, 180));
 
                 //及川エフェクト追加
+                float scale = 1f;
+                GameObject PrefabHalo = GameObject.Instantiate(halo, pieceBox[zList[c], x].transform.position, Quaternion.Euler(270, 0, 0));
+                GameObject PrefabMagicSquare = GameObject.Instantiate(magicSquare, pieceBox[zList[c], x].transform.position, Quaternion.Euler(270, 0, 0));
+                GameObject PrefabStrayLight = GameObject.Instantiate(strayLight, new Vector3(3.5f, 3.5f, -3.5f), Quaternion.Euler(270, 0, 0));
+                PrefabHalo.transform.localScale = new Vector3(scale, 0, scale);
+                PrefabMagicSquare.transform.localScale = new Vector3(scale, 0, scale);
+                PrefabStrayLight.transform.localScale = new Vector3(scale, 0, scale);
+                Destroy(PrefabHalo.gameObject, 3.0f);
+                Destroy(PrefabMagicSquare.gameObject, 3.0f); 
+                Destroy(PrefabStrayLight.gameObject, 3.0f);
             }
         }
         else {
@@ -827,14 +837,21 @@ public class MainCon : MonoBehaviour
                     {
                         Destroy(pieceBox[_z, _x]);
                         picecBoard[_z, _x] = turnBW.Not;
+
+                        //及川エフェクト追加
+                        float scale = 1f;
+                        GameObject PrefabBom = GameObject.Instantiate(bom, pieceBox[z, x].transform.position, Quaternion.Euler(270, 0, 0));
+                        GameObject PrefabBomFire = GameObject.Instantiate(bomFire, pieceBox[z, x].transform.position, Quaternion.Euler(270, 0, 0));
+                        PrefabBom.transform.localScale = new Vector3(scale, 0, scale);
+                        PrefabBomFire.transform.localScale = new Vector3(scale, 0, scale);
+                        Destroy(PrefabBom.gameObject, 2.0f);
+                        Destroy(PrefabBomFire.gameObject, 2.0f);
                     }
                 }
             }
         }
         Destroy(trapBox[z, x]);
         trapBoard[z, x] = skill.Not;
-
-        //及川エフェクト追加
 
         skillOn = false;
         canCrick = true;
@@ -851,6 +868,10 @@ public class MainCon : MonoBehaviour
         trapBoard[z, x] = skill.Not;
 
         //及川エフェクト追加
+        GameObject PrefabThunderBolt = GameObject.Instantiate(thunderBolt, pieceBox[trLightZ, trLightX].transform.position, Quaternion.Euler(270, 0, 0));
+        GameObject PrefabSplashingThuder = GameObject.Instantiate(splashingThunder, pieceBox[trLightZ, trLightX].transform.position, Quaternion.Euler(270, 2, 0));
+        Destroy(PrefabThunderBolt.gameObject, 2.0f);
+        Destroy(PrefabSplashingThuder.gameObject, 2.0f);
 
         trLightPlay = false;
         skillOn = false;
